@@ -1,3 +1,4 @@
+/*
 package org.example.Control;
 
 public class WeatherController {
@@ -16,3 +17,4 @@ public class WeatherController {
 	public void execute() {
 	}
 }
+*/

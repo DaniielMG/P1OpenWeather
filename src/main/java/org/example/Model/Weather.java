@@ -1,7 +1,7 @@
 package org.example.Model;
 
 public class Weather {
-	public class WeatherData {
+	public static class WeatherData {
 
 
 		private double temperature;
@@ -17,6 +17,9 @@ public class Weather {
 			this.humidity = humidity;
 			this.cloudiness = cloudiness;
 			this.windSpeed = windSpeed;
+		}
+
+		public WeatherData(String timestamp, double temperatura, String descripcion, int nubosidad, double velocidadViento) {
 		}
 
 		public double getTemperature() {

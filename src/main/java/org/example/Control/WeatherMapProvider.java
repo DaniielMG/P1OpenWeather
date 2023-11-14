@@ -1,15 +1,24 @@
+package org.example.Control;
+
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class WeatherMapProvider {
 
-	public static void main(String[] args) {
-		String apiUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=27.996222501586843&lon=-15.418542886975203&appid=ceed62c2ca44d4b31950b46d7b614d33";
+	public static void fetchWeatherData(double lat, double lon) {
+		String apiUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=ceed62c2ca44d4b31950b46d7b614d33";
 
 		try {
 			// Crear la conexión
@@ -36,31 +45,41 @@ public class WeatherMapProvider {
 
 					// Extraer información específica
 					JSONArray forecastList = jsonResponse.getJSONArray("list");
+
+					// Obtener la fecha y hora actual
+					LocalDateTime currentDate = LocalDateTime.now();
+
+					// Iterar a través de los datos de la predicción
 					for (int i = 0; i < forecastList.length(); i++) {
 						JSONObject forecast = forecastList.getJSONObject(i);
-						JSONObject city = jsonResponse.getJSONObject("city");
-						String cityName = city.getString("name");
-						JSONObject main = forecast.getJSONObject("main");
-						double temperature = main.getDouble("temp");
+						String timestamp = forecast.getString("dt_txt");
 
-						JSONArray weatherArray = forecast.getJSONArray("weather");
-						JSONObject weather = weatherArray.getJSONObject(0);
-						String description = weather.getString("description");
+						// Parsear la marca de tiempo a LocalDateTime
+						LocalDateTime forecastDateTime = LocalDateTime.parse(timestamp, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-						JSONObject clouds = forecast.getJSONObject("clouds");
-						int cloudiness = clouds.getInt("all");
+						// Verificar si la predicción es para los próximos 5 días a las 12:00 PM
+						if (isProximaSemana(forecastDateTime, currentDate) && forecastDateTime.getHour() == 12) {
+							JSONObject main = forecast.getJSONObject("main");
+							double temperatura = main.getDouble("temp");
 
-						JSONObject wind = forecast.getJSONObject("wind");
-						double windSpeed = wind.getDouble("speed");
+							JSONArray weatherArray = forecast.getJSONArray("weather");
+							JSONObject weather = weatherArray.getJSONObject(0);
+							String descripcion = weather.getString("description");
 
-						// Puedes imprimir o utilizar los datos como desees
-						System.out.println("City: " + cityName);
-						System.out.println("Date: " + forecast.getString("dt_txt"));
-						System.out.println("Temperature: " + temperature);
-						System.out.println("Description: " + description);
-						System.out.println("Cloudiness: " + cloudiness);
-						System.out.println("Wind speed: " + windSpeed);
-						System.out.println("--------");
+							JSONObject clouds = forecast.getJSONObject("clouds");
+							int nubosidad = clouds.getInt("all");
+
+							JSONObject wind = forecast.getJSONObject("wind");
+							double velocidadViento = wind.getDouble("speed");
+
+							// Imprimir o utilizar los datos según sea necesario
+							System.out.println("Fecha: " + timestamp);
+							System.out.println("Temperatura: " + temperatura);
+							System.out.println("Descripción: " + descripcion);
+							System.out.println("Nubosidad: " + nubosidad);
+							System.out.println("Velocidad del viento: " + velocidadViento);
+							System.out.println("--------");
+						}
 					}
 				}
 			} else {
@@ -70,6 +89,30 @@ public class WeatherMapProvider {
 			// Cerrar la conexión
 			connection.disconnect();
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static boolean isProximaSemana(LocalDateTime fechaPrediccion, LocalDateTime fechaActual) {
+		// Verificar si la predicción es dentro de los próximos 5 días y a las 12:00 PM
+		return fechaPrediccion.isAfter(fechaActual) &&
+				fechaPrediccion.isBefore(fechaActual.plusDays(5).withHour(12).withMinute(0).withSecond(0));
+	}
+
+	public static void main(String[] args) {
+		// Leer el archivo CSV y procesar las ubicaciones
+		try (BufferedReader csvReader = new BufferedReader(new FileReader("C:\\Users\\danie\\Desktop\\CLASE!\\2023 - 2024\\DACD\\Práctica\\P1\\P1_WEATHER\\src\\main\\resources\\island.csv"))) {
+			CSVParser csvParser = new CSVParser(csvReader, CSVFormat.DEFAULT);
+			for (CSVRecord record : csvParser) {
+				String locationName = record.get(0);
+				double lat = Double.parseDouble(record.get(1));
+				double lon = Double.parseDouble(record.get(2));
+
+				System.out.println("Obteniendo datos para: " + locationName);
+				fetchWeatherData(lat, lon);
+				System.out.println("---------------------");
+			}
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
