@@ -1,29 +1,67 @@
 package org.Control;
 
 import org.Model.Weather;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
+import org.SQL.SQLConnect;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class WeatherMapProvider {
 
-	public static void fetchWeatherData(double lat, double lon) {
+	List<String> Location;
+
+	public static void insert(String island, String forecastDateTime,double temperatura, String descripcion, double nubosidad, double velocidadViento) {
+		String sql = "INSERT INTO WeatherData (island,forecastDateTime, temperatura, descripcion, nubosidad, velocidadViento) " +
+				"VALUES (?, ?, ?, ?, ?, ?)";
+		String dbPath = "src\\main\\resources\\DataBase.db";
+		SQLConnect connect = new SQLConnect();
+		try (Connection conn = connect.connect(dbPath);
+			 PreparedStatement pstmt =  conn.prepareStatement(sql)) {
+			pstmt.setString(1, island);
+			pstmt.setString(2, forecastDateTime);
+			pstmt.setDouble(3, temperatura);
+			pstmt.setString(4, descripcion);
+			pstmt.setDouble(5, nubosidad);
+			pstmt.setDouble(6, velocidadViento);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	public  void fetchWeatherData(double lat, double lon) {
 		String apiUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=ceed62c2ca44d4b31950b46d7b614d33";
 		List<Weather> weatherDataList = new ArrayList<>();
+		String databasePath = "src\\main\\resources\\DataBase.db";
 
+		SQLConnect connect = new SQLConnect();
 
+		try (Connection conn = connect.connect(databasePath)) {
+			Statement statement = conn.createStatement();
+			statement.execute("CREATE TABLE IF NOT EXISTS WeatherData (" +
+					"id INTEGER PRIMARY KEY AUTOINCREMENT," +
+					"island TEXT NOT NULL, " +
+					"forecastDateTime TEXT NOT NULL, " +
+					"temperatura REAL," +
+					"descripcion TEXT NOT NULL," +
+					"nubosidad REAL," +
+					"velocidadViento REAL" +
+					")");
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 		try {
 			// Crear la conexión
 			URL url = new URL(apiUrl);
@@ -49,6 +87,7 @@ public class WeatherMapProvider {
 
 					// Extraer información específica
 					JSONArray forecastList = jsonResponse.getJSONArray("list");
+					JSONObject cityList = jsonResponse.getJSONObject("city");
 
 					// Obtener la fecha y hora actual
 					LocalDateTime currentDate = LocalDateTime.now();
@@ -56,10 +95,12 @@ public class WeatherMapProvider {
 					// Iterar a través de los datos de la predicción
 					for (int i = 0; i < forecastList.length(); i++) {
 						JSONObject forecast = forecastList.getJSONObject(i);
+						String name = cityList.getString("name");
 						String timestamp = forecast.getString("dt_txt");
 
 						// Parsear la marca de tiempo a LocalDateTime
 						LocalDateTime forecastDateTime = LocalDateTime.parse(timestamp, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
 
 						// Verificar si la predicción es para los próximos 5 días a las 12:00 PM
 						if (isProximaSemana(forecastDateTime, currentDate) && forecastDateTime.getHour() == 12) {
@@ -75,23 +116,19 @@ public class WeatherMapProvider {
 
 							JSONObject wind = forecast.getJSONObject("wind");
 							double velocidadViento = wind.getDouble("speed");
+							String date = forecastDateTime.toString();
+
+
 
 							// Almacenar datos en la lista
-							Weather weatherData = new Weather(forecastDateTime, temperatura, descripcion, nubosidad, velocidadViento);
+
+							Weather weatherData = new Weather(name,date, temperatura, descripcion, nubosidad, velocidadViento);
 							weatherDataList.add(weatherData);
+							insert(weatherData.getIsland(), weatherData.getForecastDateTime(),weatherData.getTemperature(),weatherData.getDescription(), weatherData.getNubosity(), weatherData.getWindSpeed());
 
 
 
-						}
 
-						for (Weather weatherData : weatherDataList) {
-							// Acceder a los datos según sea necesario
-							System.out.println("Fecha: " + weatherData.getDescription());
-							System.out.println("Temperatura: " + weatherData.getTemperature());
-							System.out.println("Descripción: " + weatherData.getDescription());
-							System.out.println("Nubosidad: " + weatherData.getHumidity());
-							System.out.println("Velocidad del viento: " + weatherData.getWindSpeed());
-							System.out.println("--------");
 						}
 					}
 				}
@@ -112,30 +149,5 @@ public class WeatherMapProvider {
 				fechaPrediccion.isBefore(fechaActual.plusDays(5).withHour(12).withMinute(0).withSecond(0));
 	}
 
-	public static void main(String[] args) {
-		// Leer el archivo CSV y procesar las ubicaciones
-		try (BufferedReader csvReader = new BufferedReader(new FileReader("C:\\Users\\danie\\Desktop\\CLASE!\\2023 - 2024\\DACD\\Práctica\\P1\\P1_WEATHER\\src\\main\\resources\\island.csv"))) {
-			CSVParser csvParser = new CSVParser(csvReader, CSVFormat.DEFAULT);
-			for (CSVRecord record : csvParser) {
-				String locationName = record.get(0);
-				double lat = Double.parseDouble(record.get(1));
-				double lon = Double.parseDouble(record.get(2));
-
-				System.out.println("Obteniendo datos para: " + locationName);
-				fetchWeatherData(lat, lon);
-				System.out.println("---------------------");
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-
-
-		// Ahora la lista weatherDataList contiene todos los datos del clima
-		// Puedes acceder a estos datos para su posterior uso
-
-
-
-	}
 }
 

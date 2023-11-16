@@ -1,54 +1,45 @@
 package org.Model;
 
-import java.time.LocalDateTime;
-
 public class Weather {
+	String island;
+	String forecastDateTime;
+	double Temperature;
+	String description;
+	double nubosity;
+	double WindSpeed;
+
+
+
+	public Weather(String island, String forecastDateTime, double temperature, String description, double nubosity, double windSpeed) {
+		this.island = island;
+		this.forecastDateTime = forecastDateTime;
+		this.Temperature = temperature;
+		this.description = description;
+		this.nubosity = nubosity;
+		this.WindSpeed = windSpeed;
+	}
+	public String getIsland() {
+		return island;
+	}
+
+	public void setIsland(String island) {
+		this.island = island;
+	}
+
+	public String getForecastDateTime() {
+		return forecastDateTime;
+	}
+
+	public void setForecastDateTime(String forecastDateTime) {
+		this.forecastDateTime = forecastDateTime;
+	}
+
 	public double getTemperature() {
-		return temperature;
+		return Temperature;
 	}
 
 	public void setTemperature(double temperature) {
-		this.temperature = temperature;
-	}
-
-	public double getPrecipitation() {
-		return precipitation;
-	}
-
-	public void setPrecipitation(double precipitation) {
-		this.precipitation = precipitation;
-	}
-
-	public double getHumidity() {
-		return humidity;
-	}
-
-	public void setHumidity(double humidity) {
-		this.humidity = humidity;
-	}
-
-	public double getCloudiness() {
-		return cloudiness;
-	}
-
-	public void setCloudiness(double cloudiness) {
-		this.cloudiness = cloudiness;
-	}
-
-	public double getWindSpeed() {
-		return windSpeed;
-	}
-
-	public void setWindSpeed(double windSpeed) {
-		this.windSpeed = windSpeed;
-	}
-
-	public String getDtTxt() {
-		return dtTxt;
-	}
-
-	public void setDtTxt(String dtTxt) {
-		this.dtTxt = dtTxt;
+		Temperature = temperature;
 	}
 
 	public String getDescription() {
@@ -59,36 +50,23 @@ public class Weather {
 		this.description = description;
 	}
 
-	private double temperature;
-	private double precipitation;
-	private double humidity;
-	private double cloudiness;
-	private double windSpeed;
-	private String dtTxt;
-	private String description;
-	private String location;
-
-	public Weather(double temperature, double precipitation, double humidity, double cloudiness, double windSpeed, String dtTxt, String description) {
-		this.temperature = temperature;
-		this.precipitation = precipitation;
-		this.humidity = humidity;
-		this.cloudiness = cloudiness;
-		this.windSpeed = windSpeed;
-		this.dtTxt = dtTxt;
-		this.description = description;
+	public double getNubosity() {
+		return nubosity;
 	}
 
-	public Weather(LocalDateTime forecastDateTime, double temperatura, String descripcion, int nubosidad, double velocidadViento) {
-
+	public void setNubosity(double nubosity) {
+		this.nubosity = nubosity;
 	}
 
-	public void setLocation(String location) {
-		this.location = location;
+	public double getWindSpeed() {
+		return WindSpeed;
 	}
 
-	public String getLocation() {
-		return location;
+	public void setWindSpeed(double windSpeed) {
+		WindSpeed = windSpeed;
 	}
 
-	// Agrega los métodos getters y setters para los demás atributos según sea necesario
+
+
+
 }
