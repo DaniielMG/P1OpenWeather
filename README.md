@@ -8,7 +8,7 @@
 
 ## Setting :
 #### Clone the repositor
-![image](https://github.com/DaniielMG/Practica1AEMET/assets/95304769/760006ba-a6a1-48b6-b854-8cec1cff5625)
+![image](https://github.com/DaniielMG/Practica1AEMET/assets/95304769/a27e1ee4-723d-4696-9286-b3737551e331)
 
 ### Dependencies:
 #### Make sure you have the necessary dependencies. If you don't use Maven, make sure you have the necessary libraries in your project.
@@ -18,7 +18,7 @@
 
 ### CSV file:
 #### Make sure you have a CSV file called island.csv in the src/main/resources path with the format:
-![image](https://github.com/DaniielMG/Practica1AEMET/assets/95304769/55fa41d3-b300-4129-b5a4-e7707065f2f5)
+![image](https://github.com/DaniielMG/Practica1AEMET/assets/95304769/8e320d50-49eb-4e26-99a4-3da5e7b04dc2)
 
 ## Use:
 
