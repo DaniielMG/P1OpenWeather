@@ -1,4 +1,4 @@
-#P1_WEATHER
+# P1_WEATHER
 
 ##### This project uses Java to obtain climate data from specified locations and stores it in an SQLite database. Use the OpenWeatherMap API to get up-to-date weather information.
 
