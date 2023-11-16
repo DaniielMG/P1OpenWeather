@@ -1,10 +1,16 @@
 # P1_WEATHER
+![image](https://github.com/DaniielMG/Practica1AEMET/assets/95304769/566edebc-110d-406e-a850-74e4e050cb71)
+
 
 ##### This project uses Java to obtain climate data from specified locations and stores it in an SQLite database. Use the OpenWeatherMap API to get up-to-date weather information.
 
 ## System Requirements
 ##### ~ Java JDK 8 or higher
+![image](https://github.com/DaniielMG/Practica1AEMET/assets/95304769/aa064826-5339-489f-90e5-b9f6891674db)
+
 ##### ~ Apache Maven (optional, if you decide to manage dependencies manually)
+![image](https://github.com/DaniielMG/Practica1AEMET/assets/95304769/18895728-d20c-441a-ab80-91775cbbd080)
+
 
 ## Setting :
 #### Clone the repositor
@@ -27,3 +33,9 @@
 
 ### Results:
 #### The application will run immediately and every 6 hours thereafter, fetching and storing weather data in the database.
+
+## Diagram:
+
+
+## Author
+#### Daniel Medina González.
