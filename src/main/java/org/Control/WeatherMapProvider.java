@@ -1,5 +1,6 @@
-package org.example.Control;
+package org.Control;
 
+import org.Model.Weather;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -14,11 +15,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 public class WeatherMapProvider {
 
 	public static void fetchWeatherData(double lat, double lon) {
 		String apiUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=ceed62c2ca44d4b31950b46d7b614d33";
+		List<Weather> weatherDataList = new ArrayList<>();
+
 
 		try {
 			// Crear la conexión
@@ -72,12 +76,21 @@ public class WeatherMapProvider {
 							JSONObject wind = forecast.getJSONObject("wind");
 							double velocidadViento = wind.getDouble("speed");
 
-							// Imprimir o utilizar los datos según sea necesario
-							System.out.println("Fecha: " + timestamp);
-							System.out.println("Temperatura: " + temperatura);
-							System.out.println("Descripción: " + descripcion);
-							System.out.println("Nubosidad: " + nubosidad);
-							System.out.println("Velocidad del viento: " + velocidadViento);
+							// Almacenar datos en la lista
+							Weather weatherData = new Weather(forecastDateTime, temperatura, descripcion, nubosidad, velocidadViento);
+							weatherDataList.add(weatherData);
+
+
+
+						}
+
+						for (Weather weatherData : weatherDataList) {
+							// Acceder a los datos según sea necesario
+							System.out.println("Fecha: " + weatherData.getDescription());
+							System.out.println("Temperatura: " + weatherData.getTemperature());
+							System.out.println("Descripción: " + weatherData.getDescription());
+							System.out.println("Nubosidad: " + weatherData.getHumidity());
+							System.out.println("Velocidad del viento: " + weatherData.getWindSpeed());
 							System.out.println("--------");
 						}
 					}
@@ -115,5 +128,14 @@ public class WeatherMapProvider {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+
+
+		// Ahora la lista weatherDataList contiene todos los datos del clima
+		// Puedes acceder a estos datos para su posterior uso
+
+
+
 	}
 }
+

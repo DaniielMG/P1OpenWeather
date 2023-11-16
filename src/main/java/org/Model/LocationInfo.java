@@ -1,6 +1,8 @@
-package org.example.Model;
+package org.Model;
 
 public class LocationInfo {
+
+
 
 
 	public class Location {
