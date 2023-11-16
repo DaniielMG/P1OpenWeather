@@ -22,51 +22,25 @@ public class Weather {
 		return island;
 	}
 
-	public void setIsland(String island) {
-		this.island = island;
-	}
-
 	public String getForecastDateTime() {
 		return forecastDateTime;
-	}
-
-	public void setForecastDateTime(String forecastDateTime) {
-		this.forecastDateTime = forecastDateTime;
 	}
 
 	public double getTemperature() {
 		return Temperature;
 	}
 
-	public void setTemperature(double temperature) {
-		Temperature = temperature;
-	}
-
 	public String getDescription() {
 		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	public double getNubosity() {
 		return nubosity;
 	}
 
-	public void setNubosity(double nubosity) {
-		this.nubosity = nubosity;
-	}
-
 	public double getWindSpeed() {
 		return WindSpeed;
 	}
-
-	public void setWindSpeed(double windSpeed) {
-		WindSpeed = windSpeed;
-	}
-
-
 
 
 }

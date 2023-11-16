@@ -1,5 +1,6 @@
 package org.Control;
 
+import org.SQL.SQLCreate;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -13,12 +14,13 @@ class WeatherTask extends TimerTask {
 	private final WeatherMapProvider weatherMapProvider;
 
 	public WeatherTask(WeatherMapProvider weatherMapProvider) {
+
 		this.weatherMapProvider = weatherMapProvider;
 	}
 
 	@Override
 	public void run() {
-		System.out.println("Ejecutando la actualización cada 6 horas...");
+		System.out.println("Running update every 6 hours");
 
 		try (BufferedReader csvReader = new BufferedReader(new FileReader("C:\\Users\\danie\\Desktop\\CLASE!\\2023 - 2024\\DACD\\Práctica\\P1\\P1_WEATHER\\src\\main\\resources\\island.csv"))) {
 			CSVParser csvParser = new CSVParser(csvReader, CSVFormat.DEFAULT);
@@ -27,8 +29,8 @@ class WeatherTask extends TimerTask {
 				double lat = Double.parseDouble(record.get(1));
 				double lon = Double.parseDouble(record.get(2));
 
-				System.out.println("Obteniendo datos para: " + locationName);
-				weatherMapProvider.fetchWeatherData(lat, lon);
+				System.out.println("Getting data for: " + locationName);
+				SQLCreate.fetchWeatherData(lat, lon);
 				System.out.println("---------------------");
 			}
 		} catch (IOException e) {

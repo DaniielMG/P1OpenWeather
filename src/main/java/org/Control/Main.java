@@ -6,9 +6,8 @@ public class Main {
 	public static void main(String[] args) {
 		WeatherMapProvider obj1 = new WeatherMapProvider();
 
-		// Crear una tarea programada que se ejecute cada 6 horas (en milisegundos)
-		long periodo = 6 * 60 * 60 * 1000; // 6 horas en milisegundos
+		long period = 6 * 60 * 60 * 1000;
 		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(new WeatherTask(obj1), 0, periodo);
+		timer.scheduleAtFixedRate(new WeatherTask(obj1), 0, period);
 	}
 }
