@@ -35,7 +35,7 @@
 
 ## Resources used:
 
-### development environments :intelliJ IDEA Community.
+### development environments : intelliJ IDEA Community.
 ### control tools version : Git.
 ### documentation tools : 
 #### - https://chat.openai.com.
