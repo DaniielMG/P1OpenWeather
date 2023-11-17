@@ -1,18 +1,11 @@
 # P1_WEATHER
 ![image](https://github.com/DaniielMG/Practica1AEMET/assets/95304769/566edebc-110d-406e-a850-74e4e050cb71)
 
-### Subject
-#### Data science application development
-### Course
-#### Second yearh
-### Degree
-#### Degree in engineering and data science
-### School
-#### School of engineering and mathematics
-### University.
-#### ULPGC - University of las Palmas of Gran Canaria.
-
-
+### Subject : Data science application development
+### Course : Second year
+### Degree : Degree in engineering and data science
+### School : School of engineering and mathematics
+### University : ULPGC - University of las Palmas of Gran Canaria.
 ##### This project uses Java to obtain climate data from specified locations and stores it in an SQLite database. Use the OpenWeatherMap API to get up-to-date weather information.
 
 ## System Requirements
