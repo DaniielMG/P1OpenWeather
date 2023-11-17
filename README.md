@@ -11,7 +11,6 @@
 ## System Requirements
 ##### ~ Java JDK 8 or higher
 ![image](https://github.com/DaniielMG/Practica1AEMET/assets/95304769/aa064826-5339-489f-90e5-b9f6891674db)
-
 ##### ~ Apache Maven (optional, if you decide to manage dependencies manually)
 ![image](https://github.com/DaniielMG/Practica1AEMET/assets/95304769/18895728-d20c-441a-ab80-91775cbbd080)
 
@@ -36,10 +35,8 @@
 
 ## Resources used:
 
-### development environments :
-#### intelliJ IDEA Community.
-### control tools version : 
-#### Maven.
+### development environments :intelliJ IDEA Community.
+### control tools version : Git.
 ### documentation tools : 
 #### - https://chat.openai.com.
 #### - https://stackoverflow.com/questions/26236028/jdbc-connect-to-sql-server
