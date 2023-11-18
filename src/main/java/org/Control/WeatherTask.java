@@ -30,7 +30,7 @@ class WeatherTask extends TimerTask {
 				double lon = Double.parseDouble(record.get(2));
 
 				System.out.println("Getting data for: " + locationName);
-				SQLCreate.fetchWeatherData(lat, lon);
+				SQLCreate.fetchWeatherData(lat, lon, locationName);
 				System.out.println("---------------------");
 			}
 		} catch (IOException e) {
