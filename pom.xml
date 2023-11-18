@@ -25,13 +25,13 @@
             <artifactId>jsoup</artifactId>
             <version>1.16.2</version>
         </dependency>
+
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>RELEASE</version>
             <scope>compile</scope>
         </dependency>
-
 
         <dependency>
             <groupId>org.json</groupId>
@@ -44,6 +44,7 @@
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.43.2.2</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-csv</artifactId>
